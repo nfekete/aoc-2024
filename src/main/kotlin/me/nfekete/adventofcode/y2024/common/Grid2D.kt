@@ -60,6 +60,24 @@ data class Grid2D<T>(val map: Map<Coord, T>) {
         LEFT(Coord(-1, 0)),
         RIGHT(Coord(1, 0)),
     }
+
+    enum class ObliqueDirection(val delta: Coord) {
+        UP_LEFT(Coord(-1, -1)),
+        UP_RIGHT(Coord(1, -1)),
+        DOWN_LEFT(Coord(-1, 1)),
+        DOWN_RIGHT(Coord(1, 1)),
+    }
+
+    enum class Direction(val delta: Coord) {
+        UP(Coord(0, -1)),
+        DOWN(Coord(0, 1)),
+        LEFT(Coord(-1, 0)),
+        RIGHT(Coord(1, 0)),
+        UP_LEFT(Coord(-1, -1)),
+        UP_RIGHT(Coord(1, -1)),
+        DOWN_LEFT(Coord(-1, 1)),
+        DOWN_RIGHT(Coord(1, 1)),
+    }
 }
 
 fun Grid2D<Char>.pretty(emptyValue: Char = '.') = pretty(emptyValue) { it }
