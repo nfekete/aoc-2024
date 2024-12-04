@@ -30,6 +30,9 @@ private val crosses =
 private fun Grid2D<Char>.extract(positions: List<Coord>) =
     if (positions.all { it in coords }) positions.map { this[it] } else null
 
+private val MAS = "MAS".toList()
+private val XMAS = "XMAS".toList()
+
 private fun main() {
     val input = classpathFile("day04/input.txt")
         .readLines()
@@ -37,12 +40,12 @@ private fun main() {
 
     input.coords.sumOf { coord ->
         fourElementSequenceCoords.map { it + coord }
-            .count { input.extract(it)?.joinToString("") == "XMAS" }
+            .count { input.extract(it) == XMAS }
     }.also { println("Part1: $it") }
 
     input.coords.sumOf { coord ->
         crosses.count { crossLegs ->
-            crossLegs.mapBoth { input.extract(it + coord)?.joinToString("") } == "MAS" to "MAS"
+            crossLegs.mapBoth { input.extract(it + coord) } == MAS to MAS
         }
     }.also { println("Part2: $it") }
 }
