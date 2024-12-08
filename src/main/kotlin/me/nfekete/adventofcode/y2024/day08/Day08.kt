@@ -1,0 +1,27 @@
+package me.nfekete.adventofcode.y2024.day08
+
+import me.nfekete.adventofcode.y2024.common.Grid2D
+import me.nfekete.adventofcode.y2024.common.classpathFile
+import me.nfekete.adventofcode.y2024.common.crossProduct
+
+@Suppress("SimpleRedundantLet")
+private fun Grid2D<Char>.part1() =
+    map.entries.groupBy({ it.value }) { it.key }
+        .let { reverseMap ->
+            reverseMap.entries
+                .filter { it.key != '.' }
+                .flatMap { (_, sameFrequencyCoords) ->
+                    (sameFrequencyCoords crossProduct sameFrequencyCoords)
+                        .filter { (a, b) -> a != b }
+                        .flatMap { (a, b) -> listOf(a + (a - b), b + (b - a)) }
+                }.filter { it in coords }
+                .toSet().size
+        }
+
+private fun main() {
+    val grid = classpathFile("day08/input.txt")
+        .readLines()
+        .let { Grid2D.from(it) }
+
+    grid.part1().also { println("Part1: $it") }
+}
