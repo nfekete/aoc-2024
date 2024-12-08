@@ -95,8 +95,59 @@ Because the topmost `A`-frequency antenna overlaps with a `0`-frequency antinode
 
 Calculate the impact of the signal. *How many unique locations within the bounds of the map contain an antinode?*
 
-To begin, [get your puzzle input](8/input).
+Your puzzle answer was `265`.
+
+The first half of this puzzle is complete! It provides one gold star: \*
+
+\--- Part Two ---
+----------
+
+Watching over your shoulder as you work, one of The Historians asks if you took the effects of resonant harmonics into your calculations.
+
+Whoops!
+
+After updating your model, it turns out that an antinode occurs at *any grid position* exactly in line with at least two antennas of the same frequency, regardless of distance. This means that some of the new antinodes will occur at the position of each antenna (unless that antenna is the only one of its frequency).
+
+So, these three `T`-frequency antennas now create many antinodes:
+
+```
+T....#....
+...T......
+.T....#...
+.........#
+..#.......
+..........
+...#......
+..........
+....#.....
+..........
+
+```
+
+In fact, the three `T`-frequency antennas are all exactly in line with two antennas, so they are all also antinodes! This brings the total number of antinodes in the above example to `*9*`.
+
+The original example now has `*34*` antinodes, including the antinodes that appear on every antenna:
+
+```
+##....#....#
+.#.#....0...
+..#.#0....#.
+..##...0....
+....0....#..
+.#...#A....#
+...#..#.....
+#....#.#....
+..#.....A...
+....#....A..
+.#........#.
+...#......##
+
+```
+
+Calculate the impact of the signal using this updated model. *How many unique locations within the bounds of the map contain an antinode?*
 
 Answer:
 
-You can also [Shareon [Bluesky](https://bsky.app/intent/compose?text=%22Resonant+Collinearity%22+%2D+Day+8+%2D+Advent+of+Code+2024+%23AdventOfCode+https%3A%2F%2Fadventofcode%2Ecom%2F2024%2Fday%2F8) [Twitter](https://twitter.com/intent/tweet?text=%22Resonant+Collinearity%22+%2D+Day+8+%2D+Advent+of+Code+2024&url=https%3A%2F%2Fadventofcode%2Ecom%2F2024%2Fday%2F8&related=ericwastl&hashtags=AdventOfCode) [Mastodon](javascript:void(0);)] this puzzle.
+Although it hasn't changed, you can still [get your puzzle input](8/input).
+
+You can also [Shareon [Bluesky](https://bsky.app/intent/compose?text=I%27ve+completed+Part+One+of+%22Resonant+Collinearity%22+%2D+Day+8+%2D+Advent+of+Code+2024+%23AdventOfCode+https%3A%2F%2Fadventofcode%2Ecom%2F2024%2Fday%2F8) [Twitter](https://twitter.com/intent/tweet?text=I%27ve+completed+Part+One+of+%22Resonant+Collinearity%22+%2D+Day+8+%2D+Advent+of+Code+2024&url=https%3A%2F%2Fadventofcode%2Ecom%2F2024%2Fday%2F8&related=ericwastl&hashtags=AdventOfCode) [Mastodon](javascript:void(0);)] this puzzle.
