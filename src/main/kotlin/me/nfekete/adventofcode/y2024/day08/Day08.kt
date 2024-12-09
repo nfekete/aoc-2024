@@ -1,6 +1,7 @@
 package me.nfekete.adventofcode.y2024.day08
 
 import me.nfekete.adventofcode.y2024.common.Grid2D
+import me.nfekete.adventofcode.y2024.common.Grid2D.Coord.Companion.zero
 import me.nfekete.adventofcode.y2024.common.classpathFile
 import me.nfekete.adventofcode.y2024.common.crossProduct
 
