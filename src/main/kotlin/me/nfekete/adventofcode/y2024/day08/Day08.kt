@@ -25,15 +25,13 @@ private fun Grid2D<Char>.part2() =
                 .filter { (a, b) -> a != b }
                 .flatMap { (a, b) ->
                     val delta = a - b
-                    val set1 = generateSequence(delta) { it + delta }
+                    val set1 = generateSequence(zero) { it + delta }
                         .map { a + it }
                         .takeWhile { it in coords }
-                        .toSet()
                     val set2 = generateSequence(delta) { it + delta }
                         .map { a - it }
                         .takeWhile { it in coords }
-                        .toSet()
-                    (set1 + set2 + a).toSet()
+                    set1 + set2
                 }
         }
         .toSet().size
