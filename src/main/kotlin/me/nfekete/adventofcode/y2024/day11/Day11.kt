@@ -1,6 +1,7 @@
 package me.nfekete.adventofcode.y2024.day11
 
 import me.nfekete.adventofcode.y2024.common.classpathFile
+import me.nfekete.adventofcode.y2024.common.memoized
 
 class Stones(private val stones: List<Long>) {
 
@@ -10,16 +11,18 @@ class Stones(private val stones: List<Long>) {
             stone.toString().let { stoneStr ->
                 val remainingSteps = step - 1
                 when {
-                    stone == 0L -> recurse(remainingSteps, 1L)
+                    stone == 0L -> recurseM(remainingSteps, 1L)
                     stoneStr.length % 2 == 0 ->
-                        recurse(remainingSteps, stoneStr.take(stoneStr.length / 2).toLong()) +
-                                recurse(remainingSteps, stoneStr.drop(stoneStr.length / 2).toLong())
+                        recurseM(remainingSteps, stoneStr.take(stoneStr.length / 2).toLong()) +
+                                recurseM(remainingSteps, stoneStr.drop(stoneStr.length / 2).toLong())
 
-                    else -> recurse(remainingSteps, stone * 2024)
+                    else -> recurseM(remainingSteps, stone * 2024)
                 }
             }
 
-    fun numStonesAfterBlinks(times: Int) = stones.sumOf { recurse(times, it) }
+    val recurseM = ::recurse.memoized()
+
+    fun numStonesAfterBlinks(times: Int) = stones.sumOf { recurseM(times, it) }
 }
 
 private fun main() {
@@ -29,4 +32,5 @@ private fun main() {
 
     val input = classpathFile("day11/input.txt").readLine().split(' ').map { it.toLong() }
     Stones(input).numStonesAfterBlinks(25).also { println("Part1: $it") }
+    Stones(input).numStonesAfterBlinks(75).also { println("Part2: $it") }
 }
