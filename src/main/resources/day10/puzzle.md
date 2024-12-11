@@ -84,8 +84,6 @@ The reindeer gleefully carries over a protractor and adds it to the pile. *What 
 
 Your puzzle answer was `789`.
 
-The first half of this puzzle is complete! It provides one gold star: \*
-
 \--- Part Two ---
 ----------
 
@@ -160,8 +158,12 @@ Considering its trailheads in reading order, they have ratings of `20`, `24`, `1
 
 You're not sure how, but the reindeer seems to have crafted some tiny flags out of toothpicks and bits of paper and is using them to mark trailheads on your topographic map. *What is the sum of the ratings of all trailheads?*
 
-Answer:
+Your puzzle answer was `1735`.
 
-Although it hasn't changed, you can still [get your puzzle input](10/input).
+Both parts of this puzzle are complete! They provide two gold stars: \*\*
 
-You can also [Shareon [Bluesky](https://bsky.app/intent/compose?text=I%27ve+completed+Part+One+of+%22Hoof+It%22+%2D+Day+10+%2D+Advent+of+Code+2024+%23AdventOfCode+https%3A%2F%2Fadventofcode%2Ecom%2F2024%2Fday%2F10) [Twitter](https://twitter.com/intent/tweet?text=I%27ve+completed+Part+One+of+%22Hoof+It%22+%2D+Day+10+%2D+Advent+of+Code+2024&url=https%3A%2F%2Fadventofcode%2Ecom%2F2024%2Fday%2F10&related=ericwastl&hashtags=AdventOfCode) [Mastodon](javascript:void(0);)] this puzzle.
+At this point, you should [return to your Advent calendar](/2024) and try another puzzle.
+
+If you still want to see it, you can [get your puzzle input](10/input).
+
+You can also [Shareon [Bluesky](https://bsky.app/intent/compose?text=I%27ve+completed+%22Hoof+It%22+%2D+Day+10+%2D+Advent+of+Code+2024+%23AdventOfCode+https%3A%2F%2Fadventofcode%2Ecom%2F2024%2Fday%2F10) [Twitter](https://twitter.com/intent/tweet?text=I%27ve+completed+%22Hoof+It%22+%2D+Day+10+%2D+Advent+of+Code+2024&url=https%3A%2F%2Fadventofcode%2Ecom%2F2024%2Fday%2F10&related=ericwastl&hashtags=AdventOfCode) [Mastodon](javascript:void(0);)] this puzzle.
