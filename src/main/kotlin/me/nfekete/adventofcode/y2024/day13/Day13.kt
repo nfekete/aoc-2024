@@ -29,8 +29,8 @@ private data class ClawMachine(val buttonA: Button, val buttonB: Button, val pri
         val px = prizeX + shiftPrizeLocation
         val py = prizeY + shiftPrizeLocation
 
-        val a = (by.toDouble() * px - bx * py) / (ax * by - ay * bx)
-        val b = (-ay.toDouble() * px + ax * py) / (ax * by - ay * bx)
+        val a = (by * px - bx * py).toDouble() / (ax * by - ay * bx)
+        val b = (-ay * px + ax * py).toDouble() / (ax * by - ay * bx)
         return if (a % 1.0 == 0.0 && b % 1.0 == 0.0)
             a.toLong() * buttonA.cost + b.toLong() * buttonB.cost
         else
