@@ -21,17 +21,16 @@ private data class ClawMachine(val buttonA: Button, val buttonB: Button, val pri
         }
     }
 
-    fun costToWin(): Long? {
+    fun costToWin(shiftPrizeLocation: Long = 0L): Long? {
         val ax = buttonA.x
         val ay = buttonA.y
         val bx = buttonB.x
         val by = buttonB.y
-        val px = prizeX
-        val py = prizeY
+        val px = prizeX + shiftPrizeLocation
+        val py = prizeY + shiftPrizeLocation
 
         val a = (by.toDouble() * px - bx * py) / (ax * by - ay * bx)
         val b = (-ay.toDouble() * px + ax * py) / (ax * by - ay * bx)
-//        println("A=$a, B=$b")
         return if (a % 1.0 == 0.0 && b % 1.0 == 0.0)
             a.toLong() * buttonA.cost + b.toLong() * buttonB.cost
         else
@@ -46,5 +45,6 @@ private fun main() {
         .map { ClawMachine.parse(it) }
         .toList()
 
-    clawMachines.sumOf { it.costToWin() ?: 0}.let { println("Part1: $it") }
+    clawMachines.sumOf { it.costToWin() ?: 0}.also { println("Part1: $it") }
+    clawMachines.sumOf { it.costToWin(10000000000000) ?: 0}.also { println("Part2: $it") }
 }
