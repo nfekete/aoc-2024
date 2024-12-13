@@ -54,8 +54,6 @@ Figure out how to win as many prizes as possible. *What is the fewest tokens you
 
 Your puzzle answer was `36870`.
 
-The first half of this puzzle is complete! It provides one gold star: \*
-
 \--- Part Two ---
 ----------
 
@@ -86,8 +84,12 @@ Now, it is only possible to win a prize on the second and fourth claw machines. 
 
 Using the corrected prize coordinates, figure out how to win as many prizes as possible. *What is the fewest tokens you would have to spend to win all possible prizes?*
 
-Answer:
+Your puzzle answer was `78101482023732`.
 
-Although it hasn't changed, you can still [get your puzzle input](13/input).
+Both parts of this puzzle are complete! They provide two gold stars: \*\*
 
-You can also [Shareon [Bluesky](https://bsky.app/intent/compose?text=I%27ve+completed+Part+One+of+%22Claw+Contraption%22+%2D+Day+13+%2D+Advent+of+Code+2024+%23AdventOfCode+https%3A%2F%2Fadventofcode%2Ecom%2F2024%2Fday%2F13) [Twitter](https://twitter.com/intent/tweet?text=I%27ve+completed+Part+One+of+%22Claw+Contraption%22+%2D+Day+13+%2D+Advent+of+Code+2024&url=https%3A%2F%2Fadventofcode%2Ecom%2F2024%2Fday%2F13&related=ericwastl&hashtags=AdventOfCode) [Mastodon](javascript:void(0);)] this puzzle.
+At this point, you should [return to your Advent calendar](/2024) and try another puzzle.
+
+If you still want to see it, you can [get your puzzle input](13/input).
+
+You can also [Shareon [Bluesky](https://bsky.app/intent/compose?text=I%27ve+completed+%22Claw+Contraption%22+%2D+Day+13+%2D+Advent+of+Code+2024+%23AdventOfCode+https%3A%2F%2Fadventofcode%2Ecom%2F2024%2Fday%2F13) [Twitter](https://twitter.com/intent/tweet?text=I%27ve+completed+%22Claw+Contraption%22+%2D+Day+13+%2D+Advent+of+Code+2024&url=https%3A%2F%2Fadventofcode%2Ecom%2F2024%2Fday%2F13&related=ericwastl&hashtags=AdventOfCode) [Mastodon](javascript:void(0);)] this puzzle.
