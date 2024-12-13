@@ -1,12 +1,10 @@
 package me.nfekete.adventofcode.y2024.common
 
-import kotlin.math.floor
-
 fun Long.primeFactors() = sequence {
-    var acc = this@primeFactors
+    val max = this@primeFactors
+    var acc = max
     var maybeDivisor = 2L
-    val max = floor(this@primeFactors.toDouble()).toLong()
-    while (maybeDivisor < max && acc > 1) {
+    while (maybeDivisor <= max && acc > 1) {
         while (acc % maybeDivisor == 0L) {
             yield(maybeDivisor)
             acc /= maybeDivisor
