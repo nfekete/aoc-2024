@@ -138,8 +138,8 @@ inline fun <A, B, C, D, R> Iterable<A>.zip(
     return list
 }
 
-fun List<Int>.product() = fold(1, Int::times)
-fun List<Long>.product() = fold(1L, Long::times)
+fun Collection<Int>.product() = fold(1, Int::times)
+fun Collection<Long>.product() = fold(1L, Long::times)
 
 fun <R> String.regexMatchWith(pattern: String, mapper: (MatchResult.Destructured) -> R): R =
     Regex(pattern).matchEntire(this)?.destructured.let {

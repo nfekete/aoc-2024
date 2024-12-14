@@ -22,6 +22,7 @@ data class Grid2D<T>(val map: Map<Coord, T>) {
         operator fun plus(other: Coord) = Coord(x + other.x, y + other.y)
         operator fun minus(other: Coord) = Coord(x - other.x, y - other.y)
         operator fun times(factor: Long) = Coord(factor * x, factor * y)
+        operator fun times(factor: Int) = Coord(factor * x, factor * y)
         operator fun rem(divisor: Coord) = Coord(x % divisor.x, y % divisor.y)
         operator fun div(divisor: Coord) = Coord(x / divisor.x, y / divisor.y)
         fun mapX(f: (Long) -> Long) = Coord(f(x), y)
