@@ -167,3 +167,10 @@ fun <T, A> Sequence<T>.detectCycle(selector: (T) -> A) =
             Cycle(lead, index - lead, map)
         }
     }
+
+@JvmName("flattenL")
+fun <A, B, C> Pair<Pair<A, B>, C>.flatten() = Triple(first.first, first.second, second)
+@JvmName("flattenR")
+fun <A, B, C> Pair<A, Pair<B, C>>.flatten() = Triple(first, second.first, second.second)
+
+infix fun <T> Set<T>.symmetricDifference(other: Set<T>) = (this + other).toSet() - this.intersect(other.toSet()).toSet()

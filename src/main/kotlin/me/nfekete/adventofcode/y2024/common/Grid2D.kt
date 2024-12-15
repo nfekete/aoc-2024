@@ -1,6 +1,7 @@
 package me.nfekete.adventofcode.y2024.common
 
 import kotlin.math.abs
+import kotlin.math.absoluteValue
 
 data class Grid2D<T>(val map: Map<Coord, T>) {
     data class Coord(val x: Long, val y: Long) : Comparable<Coord> {
@@ -25,14 +26,18 @@ data class Grid2D<T>(val map: Map<Coord, T>) {
         operator fun times(factor: Int) = Coord(factor * x, factor * y)
         operator fun rem(divisor: Coord) = Coord(x % divisor.x, y % divisor.y)
         operator fun div(divisor: Coord) = Coord(x / divisor.x, y / divisor.y)
+        operator fun div(divisor: Long) = Coord(this.x / divisor, this.y / divisor)
+        operator fun div(divisor: Int) = Coord(this.x / divisor, this.y / divisor)
         fun mapX(f: (Long) -> Long) = Coord(f(x), y)
         fun mapY(f: (Long) -> Long) = Coord(x, f(y))
         val manhattan get() = abs(x) + abs(y)
+        val absoluteValue get() = Coord(x.absoluteValue, y.absoluteValue)
         override fun compareTo(other: Coord) =
             y.compareTo(other.y).takeIf { it != 0 } ?: x.compareTo(other.x)
 
         companion object {
             val zero = Coord(0, 0)
+            val one = Coord(1, 1)
         }
     }
 
