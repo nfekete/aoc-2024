@@ -94,3 +94,11 @@ fun Grid2D.CardinalDirection.turnRight() = when (this) {
     Grid2D.CardinalDirection.DOWN -> Grid2D.CardinalDirection.LEFT
     Grid2D.CardinalDirection.LEFT -> Grid2D.CardinalDirection.UP
 }
+
+fun Grid2D.CardinalDirection.turnLeft() = when (this) {
+    Grid2D.CardinalDirection.RIGHT -> Grid2D.CardinalDirection.UP
+    Grid2D.CardinalDirection.DOWN -> Grid2D.CardinalDirection.RIGHT
+    Grid2D.CardinalDirection.LEFT -> Grid2D.CardinalDirection.DOWN
+    Grid2D.CardinalDirection.UP -> Grid2D.CardinalDirection.LEFT
+}
+
