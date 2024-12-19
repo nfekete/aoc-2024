@@ -2,18 +2,24 @@ package me.nfekete.adventofcode.y2024.day19
 
 import me.nfekete.adventofcode.y2024.common.classpathFile
 import me.nfekete.adventofcode.y2024.common.memoized
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.DynamicTest
+import org.junit.jupiter.api.TestFactory
 
 private class TowelCombiner(private val towels: Set<String>) {
 
-    private val recurseM = ::recurse.memoized()
-    private fun recurse(design: String): Boolean =
-        if (design.isEmpty() || design in towels)
-            true
+    private val howManyWaysForRM = ::howManyWaysForR.memoized()
+    private fun howManyWaysForR(design: String): Long =
+        if (design.isEmpty())
+            1
         else
-            (1..<design.length).any { n -> recurseM(design.take(n)) && recurseM(design.drop(n)) }
+            (0..design.length)
+                .filter { n -> design.take(n) in towels }
+                .sumOf { n ->
+                    howManyWaysForRM(design.drop(n))
+                }
 
-    fun canBeMade(design: String) = recurseM(design)
-
+    fun howManyWaysFor(design: String) = howManyWaysForRM(design)
 }
 
 private fun main() {
@@ -24,6 +30,31 @@ private fun main() {
             val designs = lines.drop(2)
 
             val towelCombiner = TowelCombiner(towels)
-            designs.count { towelCombiner.canBeMade(it) }.also { println("Part1: $it") }
+            designs.map { design ->
+                towelCombiner.howManyWaysFor(design)
+            }.let { ways ->
+                ways.count { it > 0 }.also { println("Part1: $it") }
+                ways.sum().also { println("Part2: $it") }
+            }
+        }
+}
+
+private class Tests {
+    @TestFactory
+    fun test() =
+        TowelCombiner(setOf("r", "wr", "b", "g", "bwu", "rb", "gb", "br")).let { towelCombiner ->
+            listOf(
+                "brwrr" to 2,
+                "bggr" to 1,
+                "gbbr" to 4,
+                "rrbgbr" to 6,
+                "bwurrg" to 1,
+                "ubwu" to 0,
+                "bbrgwb" to 0,
+            ).map { (design, expected) ->
+                DynamicTest.dynamicTest(design) {
+                    assertEquals(expected.toLong(), towelCombiner.howManyWaysFor(design))
+                }
+            }
         }
 }
