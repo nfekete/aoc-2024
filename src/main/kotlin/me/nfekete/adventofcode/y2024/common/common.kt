@@ -53,6 +53,12 @@ fun <A, B, R> crossProduct(sa: Sequence<A>, sb: Sequence<B>, fn: (A, B) -> R) =
 infix fun <A, B> Iterable<A>.crossProduct(other: Iterable<B>) =
     flatMap { a -> other.map { b -> a to b } }
 
+inline fun <A, B, R> Iterable<A>.crossProduct(other: Iterable<B>, fn: (A, B) -> R) =
+    flatMap { a -> other.map { b -> fn(a, b) } }
+
+inline fun <A, B, R> Iterable<A>.crossProductNotNull(other: Iterable<B>, fn: (A, B) -> R?) =
+    flatMap { a -> other.mapNotNull { b -> fn(a, b) } }
+
 infix fun <A, B> Sequence<A>.crossProduct(other: Sequence<B>) =
     flatMap { a -> other.map { b -> a to b } }
 
@@ -87,7 +93,7 @@ fun <P1, P2, R> ((P1, P2) -> R).memoized(cache: MutableMap<Pair<P1, P2>, R> = mu
         }
     }
 
-fun <R> produceIf(test: Boolean, producer: () -> R): R? =
+inline fun <R> produceIf(test: Boolean, producer: () -> R): R? =
     when {
         test -> producer()
         else -> null
