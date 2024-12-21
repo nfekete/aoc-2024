@@ -9,7 +9,7 @@ interface Monoid<T> : Semigroup<T> {
     val identity: T
 }
 
-val Monoid.Companion.longAddition get() = object : Monoid<Long> {
+fun Monoid.Companion.longAddition() = object : Monoid<Long> {
     override fun Long.combine(other: Long) = this + other
     override val identity get() = 0L
 }

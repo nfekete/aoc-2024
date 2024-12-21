@@ -39,7 +39,7 @@ private class Maze(private val grid: Grid2D<Char>) : Graph<Node, Long> {
             val start = Node(startCoord, RIGHT)
             val endCoord = grid.map.entries.first { (_, char) -> char == 'E' }.key
             val ends = CardinalDirection.entries.map { direction -> Node(endCoord, direction) }
-            val shortestPaths = with(Monoid.longAddition) { dijkstraCapturingAllShortestPaths(start) }
+            val shortestPaths = with(Monoid.longAddition()) { dijkstraCapturingAllShortestPaths(start) }
             val shortestPathsToEnd = ends.flatMap { shortestPaths[it] }
             val minCost = shortestPathsToEnd.minOf { it.cost }
             val pathsHavingMinimalCost = shortestPathsToEnd

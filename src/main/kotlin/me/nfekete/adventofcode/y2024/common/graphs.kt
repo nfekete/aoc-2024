@@ -1,5 +1,6 @@
 package me.nfekete.adventofcode.y2024.common
 
+import me.nfekete.adventofcode.y2024.common.Grid2D.Coord
 import java.util.PriorityQueue
 
 interface Graph<V, W>
@@ -127,3 +128,8 @@ fun <V, W> Graph<V, W>.reversed(): Graph<V, W> where V : Any, W : Comparable<W> 
                 neighborWithCostFunction = { reverseNeighborsMap[it] ?: emptyMap() },
             )
         }
+
+class GridGraph2D(val grid: Grid2D<*>) : Graph<Coord, Long> {
+    override val vertices: Set<Coord> = grid.map.keys
+    override fun Coord.neighborsWithCost() = axisNeighbors.filter { it in vertices }.associateWith { 1L }
+}
