@@ -1,7 +1,13 @@
 package me.nfekete.adventofcode.y2024.common
 
+import me.nfekete.adventofcode.y2024.common.Grid2D.CardinalDirection.Companion
+import me.nfekete.adventofcode.y2024.common.Grid2D.CardinalDirection.DOWN
+import me.nfekete.adventofcode.y2024.common.Grid2D.CardinalDirection.LEFT
+import me.nfekete.adventofcode.y2024.common.Grid2D.CardinalDirection.RIGHT
+import me.nfekete.adventofcode.y2024.common.Grid2D.CardinalDirection.UP
 import kotlin.math.abs
 import kotlin.math.absoluteValue
+import kotlin.test.fail
 
 data class Grid2D<T>(val map: Map<Coord, T>) {
     data class Coord(val x: Long, val y: Long) : Comparable<Coord> {
@@ -65,6 +71,8 @@ data class Grid2D<T>(val map: Map<Coord, T>) {
         DOWN(Coord(0, 1)),
         LEFT(Coord(-1, 0)),
         RIGHT(Coord(1, 0)),
+        ;
+        companion object
     }
 
     enum class ObliqueDirection(val delta: Coord) {
@@ -86,19 +94,28 @@ data class Grid2D<T>(val map: Map<Coord, T>) {
     }
 }
 
+fun Companion.from(char: Char) =
+    when (char) {
+        '<' -> LEFT
+        '>' -> RIGHT
+        '^' -> UP
+        'v' -> DOWN
+        else -> fail()
+    }
+
 fun Grid2D<Char>.pretty(emptyValue: Char = '.') = pretty(emptyValue) { it }
 
 fun Grid2D.CardinalDirection.turnRight() = when (this) {
-    Grid2D.CardinalDirection.UP -> Grid2D.CardinalDirection.RIGHT
-    Grid2D.CardinalDirection.RIGHT -> Grid2D.CardinalDirection.DOWN
-    Grid2D.CardinalDirection.DOWN -> Grid2D.CardinalDirection.LEFT
-    Grid2D.CardinalDirection.LEFT -> Grid2D.CardinalDirection.UP
+    UP -> RIGHT
+    RIGHT -> DOWN
+    DOWN -> LEFT
+    LEFT -> UP
 }
 
 fun Grid2D.CardinalDirection.turnLeft() = when (this) {
-    Grid2D.CardinalDirection.RIGHT -> Grid2D.CardinalDirection.UP
-    Grid2D.CardinalDirection.DOWN -> Grid2D.CardinalDirection.RIGHT
-    Grid2D.CardinalDirection.LEFT -> Grid2D.CardinalDirection.DOWN
-    Grid2D.CardinalDirection.UP -> Grid2D.CardinalDirection.LEFT
+    RIGHT -> UP
+    DOWN -> RIGHT
+    LEFT -> DOWN
+    UP -> LEFT
 }
 

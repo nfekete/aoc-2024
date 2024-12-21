@@ -93,6 +93,17 @@ fun <P1, P2, R> ((P1, P2) -> R).memoized(cache: MutableMap<Pair<P1, P2>, R> = mu
         }
     }
 
+fun <P1, P2, P3, R> ((P1, P2, P3) -> R).memoized(cache: MutableMap<Triple<P1, P2, P3>, R> = mutableMapOf()): (P1, P2, P3) -> R =
+    fun(p1: P1, p2: P2, p3: P3) = Triple(p1, p2, p3).let {
+        if (it in cache) {
+            cache[it]!!
+        } else {
+            val r = this(it.first, it.second, it.third)
+            cache[it] = r
+            r
+        }
+    }
+
 inline fun <R> produceIf(test: Boolean, producer: () -> R): R? =
     when {
         test -> producer()
