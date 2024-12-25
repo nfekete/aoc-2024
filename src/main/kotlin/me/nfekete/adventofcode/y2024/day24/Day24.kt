@@ -2,8 +2,9 @@ package me.nfekete.adventofcode.y2024.day24
 
 import me.nfekete.adventofcode.y2024.common.chunkBy
 import me.nfekete.adventofcode.y2024.common.classpathFile
-import me.nfekete.adventofcode.y2024.common.crossProduct
+import me.nfekete.adventofcode.y2024.common.inOrder
 import me.nfekete.adventofcode.y2024.common.map2
+import me.nfekete.adventofcode.y2024.common.mapBoth
 import me.nfekete.adventofcode.y2024.common.removePrefix
 import me.nfekete.adventofcode.y2024.common.splitByDelimiter
 import me.nfekete.adventofcode.y2024.common.toSet
@@ -24,9 +25,6 @@ private data class Gate(val gateType: GateType, val inputs: Pair<String, String>
 
 private class Circuit(gates: List<Gate>, val initialValues: Map<String, Int>) {
     val gates = gates.associateBy { it.output }
-    val errors = mutableListOf<String>()
-    val candidateWires = mutableSetOf<String>()
-    val correctWires = mutableSetOf<String>()
 
     fun Gate.resolve(map: MutableMap<String, Int>): Int =
         if (output in map.keys) map[output]!! else {
@@ -47,108 +45,65 @@ private class Circuit(gates: List<Gate>, val initialValues: Map<String, Int>) {
             .toLong(2)
     }
 
-    infix fun String.xor(other: String): String =
-        gates.values.singleOrNull {
-            it.gateType == XOR && it.inputs.toSet() == setOf(
-                this,
-                other
-            )
-        }?.output?.also { correctWires.add(it) }
-            ?: "???".also {
-                errors.add("couldn't find XOR gate with inputs: ${this@xor}, $other")
-                candidateWires.add(this)
-                candidateWires.add(other)
-            }
-
-    infix fun String.and(other: String): String =
-        gates.values.singleOrNull {
-            it.gateType == AND && it.inputs.toSet() == setOf(
-                this,
-                other
-            )
-        }?.output?.also { correctWires.add(it) }
-            ?: "???".also { errors.add("couldn't find AND gate with inputs: ${this@and}, $other") }
-
-    infix fun String.or(other: String): String =
-        gates.values.singleOrNull {
-            it.gateType == OR && it.inputs.toSet() == setOf(
-                this,
-                other
-            )
-        }?.output?.also { correctWires.add(it) }
-            ?: "???".also { errors.add("couldn't find OR gate with inputs: ${this@or}, $other") }
-
     fun xin(index: Int) = "x%02d".format(index)
     fun yin(index: Int) = "y%02d".format(index)
     fun zout(index: Int) = "z%02d".format(index)
 
-    fun expectAdder(index: Int, expectedCarryOutName: String? = null): Pair<String, String> {
-        val xin = xin(index)
-        val yin = yin(index)
-//        val zout = zout(index)
-        if (index > 0) {
-            val (_, prevCarryOut) = expectAdder(index - 1)
-            val xor1 = xin xor yin
-            val sum = xor1 xor prevCarryOut
-            val and1 = xor1 and prevCarryOut
-            val and2 = xin and yin
-            val carry = and1 or and2
-            return sum to carry
-        } else {
-            val sum = xin xor yin
-            val carry = xin and yin
-            return sum to carry
-        }
-    }
-
-    private fun verifyOutputs() {
+    private fun verifyOutputs() =
         gates.values.filter {
             it.output.startsWith("z")
                     && it.output.removePrefix("z").toInt() in 0..44
                     && it.gateType != XOR
-        }.map { it.output }
-            .let { candidateWires.addAll(it) }
+        }.map { it.output }.toSet()
+
+    private fun inputXorGates() =
+        gates.values.filter { it.gateType == XOR }
+            .filter { gate -> gate.inputs.mapBoth { it.first() }.inOrder == ('x' to 'y') }
+
+    private fun inputAndGates() =
+        gates.values.filter { it.gateType == AND }
+            .filter { gate -> gate.inputs.mapBoth { it.first() }.inOrder == ('x' to 'y') }
+
+    private fun orGates() =
+        gates.values.filter { it.gateType == OR }
+
+    private fun nonInputAndGates() =
+        gates.values.filter { it.gateType == AND }
+            .filterNot { gate -> gate.inputs.mapBoth { it.first() }.inOrder == ('x' to 'y') }
+
+    private fun nonInputXorGates() =
+        gates.values.filter { it.gateType == XOR }
+            .filterNot { gate -> gate.inputs.mapBoth { it.first() }.inOrder == ('x' to 'y') }
+
+    private fun verifyInputXorGatesLeadToNonOutputs() =
+        inputXorGates()
+            .filter { gate -> gate.inputs.toSet() != setOf("x00", "y00") && gate.output == "z00" }
+            .filter { it.output.startsWith("z") }.map { it.output }.toSet()
+
+    private fun verifyNonInputXorGatesLeadToOutputs() =
+        nonInputXorGates()
+            .filter { !it.output.startsWith("z") }
+            .map { it.output }
+            .toSet()
+
+    private fun verifyXorChain(): Set<String> {
+        val nonInputXorgateInputs = nonInputXorGates().flatMap { it.inputs.toSet() }.toSet()
+        return inputXorGates()
+            .filter { it.inputs.toSet() != setOf("x00", "y00") }.map { it.output }.filter { output -> output !in nonInputXorgateInputs }.toSet()
     }
 
-//    private fun verify
-
-    fun expect45BitAdder() {
-        verifyOutputs()
-        expectAdder(44, "z45").also { println(it) }
-        errors.distinct().forEach(::println)
-        candidateWires.sorted().forEach(::println)
+    private fun verifyAndChain(): Set<String> {
+        val orGateInputs = orGates().flatMap { it.inputs.toSet() }
+        return inputAndGates().filter { it.inputs.toSet() != setOf("x00", "y00") }
+            .filter { it.output !in orGateInputs }
+            .map { it.output }.toSet()
     }
 
-    fun swapNames(name1: String, name2: String) =
-        gates.values.map {
-            when (it.output) {
-                name1 -> it.copy(output = name2)
-                name2 -> it.copy(output = name1)
-                else -> it
-            }
-        }.let { Circuit(it, initialValues) }
-
-    fun tryFixOne(): Circuit? {
-        expect45BitAdder()
-        val errorCount = errors.size
-        println("Current error count: $errorCount")
-        return if (errors.isEmpty())
-            null
-        else {
-            val candidateWires = gates.keys - correctWires
-            (candidateWires crossProduct candidateWires)
-                .filter { (a, b) -> a < b }
-                .map { (a, b) ->
-                    swapNames(a, b)
-                }
-                .find {
-                    it.expect45BitAdder()
-                    println("Error count with replacement: ${it.errors.size}")
-                    it.errors.size < errorCount
-                }
-        }
-    }
-
+    fun verifyCircuit() = verifyOutputs() union
+                verifyInputXorGatesLeadToNonOutputs() union
+                verifyNonInputXorGatesLeadToOutputs() union
+                verifyXorChain() union
+                verifyAndChain()
 }
 
 private fun Circuit.createDotFile(filename: String) {
@@ -202,12 +157,7 @@ private fun main() {
             val gates = gateLines.map { line -> Gate.parse(line) }
             val circuit = Circuit(gates, initialValues)
             circuit.resolve().also { println("Part1: $it") }
-//            circuit.resolve { it.output == "z01" }
-
-            circuit.expect45BitAdder()
-//            generateSequence(circuit) { it.tryFixOne() }.count().also { "Fixed circuit after $it tries" }
-
-
+            circuit.verifyCircuit().toSortedSet().joinToString(",").also { println("Part2: $it") }
             circuit.createDotFile("src/main/resources/day24/circuit.dot")
         }
 }
