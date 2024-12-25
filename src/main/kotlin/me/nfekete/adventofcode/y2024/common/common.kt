@@ -43,6 +43,7 @@ fun <A, B, R> Pair<A, B>.map(fn: (A, B) -> R): R = let { (a, b) -> fn(a, b) }
 fun <T, R> Pair<T, T>.mapBoth(fn: (T) -> R) = let { (a, b) -> fn(a) to fn(b) }
 val <A, B> Pair<A, B>.swapped get() = second to first
 val <T : Comparable<T>> Pair<T, T>.inOrder get() = if (first < second) this else swapped
+fun <T> Pair<T, T>.toSet() = setOf(first, second)
 
 fun Iterable<Long>.product() = fold(1L) { acc, i -> acc * i }
 fun Sequence<Long>.product() = fold(1L) { acc, i -> acc * i }
@@ -191,3 +192,13 @@ fun <A, B, C> Pair<Pair<A, B>, C>.flatten() = Triple(first.first, first.second, 
 fun <A, B, C> Pair<A, Pair<B, C>>.flatten() = Triple(first, second.first, second.second)
 
 infix fun <T> Set<T>.symmetricDifference(other: Set<T>) = (this + other).toSet() - this.intersect(other.toSet()).toSet()
+
+operator fun <T: Comparable<T>> Iterable<T>.compareTo(other: Iterable<T>): Int {
+    val left = iterator()
+    val right = other.iterator()
+    while (left.hasNext() && right.hasNext()) {
+        val result = left.next().compareTo(right.next())
+        if (result != 0) return result
+    }
+    return if (!left.hasNext() && right.hasNext()) -1 else if (!right.hasNext() && left.hasNext()) 1 else 0
+}
